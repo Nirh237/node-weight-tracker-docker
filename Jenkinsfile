@@ -7,7 +7,7 @@ pipeline {
             // Creating env file 
             steps {
               
-               sh 'sudo npm install'    
+              echo 'Building..'    
             }
         }
         
