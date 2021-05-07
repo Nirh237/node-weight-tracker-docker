@@ -37,7 +37,7 @@ pipeline {
     	}
     */
 
-    enviroment {
+    environment {
         DOCKER_REPOSITORY = 'nirh237'
         DOCKER_CREDS = credentials('docker-password')
     }
