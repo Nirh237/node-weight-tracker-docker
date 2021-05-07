@@ -9,3 +9,6 @@ COPY . .
 #app port
 EXPOSE 8080
 CMD [ "node", "src/index.js" ]
+
+
+
