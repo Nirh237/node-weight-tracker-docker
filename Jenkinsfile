@@ -7,7 +7,7 @@ pipeline {
             // Creating env file 
             steps {
               
-              sh 'docker run hello-world'   
+              sh 'sudo docker run hello-world'   
             }
         }
         
