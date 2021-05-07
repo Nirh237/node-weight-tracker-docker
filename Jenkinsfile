@@ -7,7 +7,7 @@ pipeline {
             // Creating env file 
             steps {
               
-              echo 'building..."   
+              echo 'building...'  
             }
         }
         
