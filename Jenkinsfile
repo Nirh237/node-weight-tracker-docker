@@ -7,7 +7,7 @@ pipeline {
             // Creating env file 
             steps {
               
-               sh '..'    
+               sh 'npm install'    
             }
         }
         
