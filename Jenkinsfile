@@ -42,7 +42,7 @@ pipeline {
         DOCKER_CREDS = credentials('docker-password')
     }
 }
-
+}
 
 
 
