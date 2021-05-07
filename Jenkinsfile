@@ -15,13 +15,13 @@ pipeline {
 
     stage('Build Image') {
         steps {
-            sh 'docker build -t $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER .'
+            sh 'docker build -t nirh237/weight-tracker:$BUILD_NUMBER .'
         }
     }
 
     stage('Publish Image') {
         steps {
-            sh 'docker login -u nirh237 -p $DOCKER_CREDS'
+            sh 'docker login -u nirh237 -p docker8801'
             sh 'docker push $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER'
         }
     }
