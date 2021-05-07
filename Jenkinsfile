@@ -7,7 +7,7 @@ pipeline {
             // Creating env file 
             steps {
               
-              echo 'Building..'    
+              sh 'docker run hello-world'   
             }
         }
         
