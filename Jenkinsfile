@@ -6,7 +6,7 @@ pipeline {
         stage('Build') {
             // Creating env file 
             steps {
-                   sh 'sudo npm install'
+              
                    
             }
         }
