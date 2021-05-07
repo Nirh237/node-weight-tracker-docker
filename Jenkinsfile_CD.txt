@@ -1,5 +1,5 @@
 pipeline {
-    agent {label "slave-ci-cd"}
+    agent {label "stage"}
 
     stages {
 
@@ -10,52 +10,31 @@ pipeline {
             }
         }
             
-        stage('Download_Artifacts') {
+        stage('Deploy to Staging') {
             steps {
-                    echo 'Downloading Artifacts..'
-                    sh 'wget http://10.0.0.4:8080/job/CI/lastSuccessfulBuild/artifact/my_archive.zip'
-                    echo 'Unzip artifacts'
-                    // TODO: how to unzip" tar
-                    sh 'unzip -o my_archive.zip'
+
+                    sh 'sudo docker run -d -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER'
             }
         }
         
 
-        stage('Build') {
-            // Creating env file (TODO: I do it in the CD only because when env was created in the ci, it was not unzipped in the deploy slave)
+        stage('Wait for Approval') {
+            
             steps {
-                    echo 'Building..'
+                    input 'Deploy to Prod?'
             }
         }
 
-        stage('Deploy') {
-           // Running the application 
+
+        stage('Deploy to prod') {
+           
             steps {
-                 echo 'Deploying to stating....'
-                sh 'ansible-playbook --ask-become-pass ~//workspace//CD//home//nirh237//workspace//CI//ansible//Playbook_staging.yml'
-                
-                /*
-                sh 'curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -'
-                sh 'sudo apt-get install -y nodejs'
-                sh 'sudo apt-get install -y build-essential'
-                sh 'sudo npm install'
-                sh 'sudo npm run initdb'
-                sh 'sudo npm install pm2 -g'                                 // install pm2
-                //sh 'pm2 stop src/index.js'
-                sh 'pm2 start -f src/index.js'
-                sh 'pm2 save'
-                //sh 'pm2 start npm -- run dev'                           // run "npm run dev" as a service in the background using pm2
-                //sh 'npm run dev'
-                
-                echo 'Finished building process'
-                */
+                echo 'Prod..'
             }
         }
-        stage('Test') {
-            // TODO: Tesing
-            steps {
-                echo 'Testing..'
-            }
-        }
+    }
+     environment {
+        DOCKER_REPOSITORY = 'nirh237'
+        DOCKER_CREDS = credentials('docker-password')
     }
 }
