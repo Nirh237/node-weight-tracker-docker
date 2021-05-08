@@ -104,12 +104,10 @@ pipeline {
                  sh 'sudo docker run -d --env-file .env -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:latest'
             }
         }
-    
+    } 
        environment {
         
           DOCKER_REPOSITORY = 'nirh237'
           DOCKER_CREDS = credentials('docker-password')
       }
-
-    } 
 }
