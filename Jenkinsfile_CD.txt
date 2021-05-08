@@ -20,9 +20,10 @@ pipeline {
 
         stage('Wait for Approval') {
             
-            steps {
-                    input { message "Deploy to Prod?"}
-            }
+            steps{
+                
+                input "Deploy to prod?"
+           }
         }
 
 
