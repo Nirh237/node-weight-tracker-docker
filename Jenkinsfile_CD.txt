@@ -46,7 +46,7 @@ pipeline {
 
         stage('Deploy to Staging') {
             steps {
-                    echo BUILD_URL
+                    echo BUILD_URL build_Number
                     sh 'sudo docker kill $(sudo docker ps -q)'
                     sh 'sudo docker run -d --restart unless-stopped --env-file .env -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:latest'
             }
@@ -115,6 +115,7 @@ pipeline {
         }
     } 
        environment {
+        def build_Number = Jenkins.instance.getItem('CI').lastSuccessfulBuild.number
           BUILD_URL = 'wget -qO- http://10.0.0.4:8080/job/CI/lastSuccessfulBuild/buildNumber'
           DOCKER_REPOSITORY = 'nirh237'
           DOCKER_CREDS = credentials('docker-password')
