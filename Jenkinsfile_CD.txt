@@ -60,14 +60,51 @@ pipeline {
            }
         }
 
+        stage('Build prod env file') {
+            // Creating env file 
+            steps {
+                    echo 'Building..'
+                     script {
+                        withCredentials([string(credentialsId: 'ok_client_id_prod', variable: 'OKTA_CLIENT_ID'), string(credentialsId: 'ok_client_secret_prod', variable:'OKTA_CLIENT_SECRET')]) {
+                    
+                        echo 'creating .env file'
+                        sh '''
+                     
+                        echo "# Host configuration
+                        PORT=8080
+                        HOST=0.0.0.0
+                        NODE_ENV=development
+                        HOST_URL=Http://13.69.62.3:8080
+               	        COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong!
+                        # Okta configuration
+                        OKTA_ORG_URL=https://dev-72046139.okta.com
+                        OKTA_CLIENT_ID=$OKTA_CLIENT_ID
+                        OKTA_CLIENT_SECRET=$OKTA_CLIENT_SECRET
+                        # Postgres configuration
+                        PGHOST=11.0.1.4
+                        PGUSERNAME=postgres
+                        PGDATABASE=postgres
+                        PGPASSWORD=password
+                        PGPORT=5432" > .env
+                        '''
+                        }
+                    }
+            }
+
+        }
 
         stage('Deploy to prod') {
-           
+           agent {
+               node {
+                   label 'prod'
+               }
+           }
             steps {
-                echo 'Prod..'
+                 
+                 sh 'sudo docker run -d --env-file .env -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:latest'
             }
         }
-    }
+    
      environment {
         
         DOCKER_REPOSITORY = 'nirh237'
