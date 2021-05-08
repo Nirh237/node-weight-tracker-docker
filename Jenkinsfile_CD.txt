@@ -47,7 +47,7 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                     sh 'sudo docker kill $(sudo docker ps -q)'
-                    sh 'sudo docker run -d --env-file .env -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER'
+                    sh 'sudo docker run -d --env-file .env -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:latest'
             }
         }
         
@@ -69,7 +69,7 @@ pipeline {
         }
     }
      environment {
-        BUILD_NUMBER = ('http://10.0.0.7:8080/job/CI/lastSuccessfulBuild/buildNumber') 
+        
         DOCKER_REPOSITORY = 'nirh237'
         DOCKER_CREDS = credentials('docker-password')
     }

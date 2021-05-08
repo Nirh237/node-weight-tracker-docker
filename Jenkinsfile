@@ -7,14 +7,14 @@ pipeline {
 
     stage('Build Image') {
         steps {
-            sh 'sudo docker build -t nirh237/weight-tracker:$BUILD_NUMBER .'
+            sh 'sudo docker build -t nirh237/weight-tracker:latest .'
         }
     }
 
     stage('Publish Image') {
         steps {
             sh 'sudo docker login -u nirh237 -p $DOCKER_CREDS'
-            sh 'sudo docker push $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER'
+            sh 'sudo docker push $DOCKER_REPOSITORY/weight-tracker:latest'
         }
     }
 
