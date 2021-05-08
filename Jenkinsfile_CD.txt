@@ -35,7 +35,7 @@ pipeline {
         }
     }
      environment {
-        build_number = {'http://10.0.0.7:8080/job/CI/lastSuccessfulBuild/buildNumber'}
+        build_number = 'http://10.0.0.7:8080/job/CI/lastSuccessfulBuild/buildNumber'
         DOCKER_REPOSITORY = 'nirh237'
         DOCKER_CREDS = credentials('docker-password')
     }
