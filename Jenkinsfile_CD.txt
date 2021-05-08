@@ -10,11 +10,12 @@ pipeline {
             }
         }
           
+// Creating staging env file 
 
         stage('Build env file') {
-            // Creating staging env file 
+      
             steps {
-                    echo 'Building..'
+                    
                      script {
                         withCredentials([string(credentialsId: 'ok_client_id', variable: 'OKTA_CLIENT_ID'), string(credentialsId: 'ok_client_secret', variable:'OKTA_CLIENT_SECRET')]) {
                     
@@ -46,7 +47,7 @@ pipeline {
 
         stage('Deploy to Staging') {
             steps {
-                
+
                     sh 'sudo docker kill $(sudo docker ps -q)'
                     sh 'sudo docker run -d --restart unless-stopped --env-file .env -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:$CIbuildNumber'
             }
@@ -61,15 +62,19 @@ pipeline {
            }
         }
 
+      // Creating prod env file
+
         stage('Build prod env file') {
               agent {
                node {
                    label 'prod'
                }
            }
-            // Creating prod env file 
+           
+           
+
             steps {
-                    echo 'Building..'
+               
                      script {
                         withCredentials([string(credentialsId: 'ok_client_id_prod', variable: 'OKTA_CLIENT_ID'), string(credentialsId: 'ok_client_secret_prod', variable:'OKTA_CLIENT_SECRET')]) {
                     
@@ -107,6 +112,7 @@ pipeline {
                    label 'prod'
                }
            }
+
             steps {
 
                  sh 'sudo docker kill $(sudo docker ps -q)'
@@ -114,6 +120,7 @@ pipeline {
             }
         }
     } 
+    
        environment {
           CIbuildNumber = "${Jenkins.instance.getItem('CI').lastSuccessfulBuild.number}"
           DOCKER_REPOSITORY = 'nirh237'

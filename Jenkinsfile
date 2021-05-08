@@ -7,7 +7,7 @@ pipeline {
 //build Docker image
     stage('Build Image') {
         steps {
-            sh 'sudo docker build -t nirh237/weight-tracker:$BUILD_NUMBER .'
+            sh 'sudo docker build -t $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER .'
         }
     }
 //push image to DockerHub repo
