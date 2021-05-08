@@ -115,7 +115,7 @@ pipeline {
         }
     } 
        environment {
-          build_number = {Jenkins.instance.getItem('CI').lastSuccessfulBuild.number}
+          build_number = {'Jenkins.instance.getItem('CI').lastSuccessfulBuild.number'}
           DOCKER_REPOSITORY = 'nirh237'
           DOCKER_CREDS = credentials('docker-password')
       }
