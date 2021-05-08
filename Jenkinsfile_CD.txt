@@ -115,7 +115,7 @@ pipeline {
         }
     } 
        environment {
-          BUILD_URL = "http://10.0.0.4:8080/job/CI/lastSuccessfulBuild/buildNumber"
+          BUILD_URL = 'wget -qO- http://10.0.0.4:8080/job/CI/lastSuccessfulBuild/buildNumber'
           DOCKER_REPOSITORY = 'nirh237'
           DOCKER_CREDS = credentials('docker-password')
       }
