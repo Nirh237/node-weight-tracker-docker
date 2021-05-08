@@ -12,7 +12,7 @@ pipeline {
           
 
         stage('Build env file') {
-            // Creating env file 
+            // Creating staging env file 
             steps {
                     echo 'Building..'
                      script {
@@ -46,6 +46,7 @@ pipeline {
 
         stage('Deploy to Staging') {
             steps {
+                    echo '$build_number'
                     sh 'sudo docker kill $(sudo docker ps -q)'
                     sh 'sudo docker run -d --restart unless-stopped --env-file .env -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:latest'
             }
@@ -66,7 +67,7 @@ pipeline {
                    label 'prod'
                }
            }
-            // Creating env file 
+            // Creating prod env file 
             steps {
                     echo 'Building..'
                      script {
@@ -114,7 +115,7 @@ pipeline {
         }
     } 
        environment {
-        
+          build_number = def buildNumber = Jenkins.instance.getItem('CI').lastSuccessfulBuild.number
           DOCKER_REPOSITORY = 'nirh237'
           DOCKER_CREDS = credentials('docker-password')
       }
