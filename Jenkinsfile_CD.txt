@@ -61,6 +61,11 @@ pipeline {
         }
 
         stage('Build prod env file') {
+              agent {
+               node {
+                   label 'prod'
+               }
+           }
             // Creating env file 
             steps {
                     echo 'Building..'
@@ -93,6 +98,8 @@ pipeline {
 
         }
 
+
+        
         stage('Deploy to prod') {
            agent {
                node {
