@@ -9,10 +9,41 @@ pipeline {
                 cleanWs()
             }
         }
-            
+            #create env file before docker run.
+
+        stage('Build env file') {
+            // Creating env file 
+            steps {
+                    echo 'Building..'
+                     script {
+                        withCredentials([string(credentialsId: 'ok_client_id', variable: 'OKTA_CLIENT_ID'), string(credentialsId: 'ok_client_secret', variable:'OKTA_CLIENT_SECRET')]) {
+                    
+                        echo 'creating .env file'
+                        sh '''
+                     
+                        echo "# Host configuration
+                        PORT=8080
+                        HOST=0.0.0.0
+                        NODE_ENV=development
+                        HOST_URL=Http://13.81.247.200:8080
+               	        COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong!
+                        # Okta configuration
+                        OKTA_ORG_URL=https://dev-72046139.okta.com
+                        OKTA_CLIENT_ID=$OKTA_CLIENT_ID
+                        OKTA_CLIENT_SECRET=$OKTA_CLIENT_SECRET
+                        # Postgres configuration
+                        PGHOST=10.0.1.4
+                        PGUSERNAME=postgres
+                        PGDATABASE=postgres
+                        PGPASSWORD=password
+                        PGPORT=5432" > .env
+                        '''
+                        }
+                    }
+            }
+
         stage('Deploy to Staging') {
             steps {
-                    sh 'sudo docker pull $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER'
                     sh 'sudo docker run -d -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER'
             }
         }

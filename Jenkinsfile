@@ -3,15 +3,7 @@ pipeline {
 
     stages {
             
-         stage('Build dependencies') { 
-            steps {
-                sh "curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -"
-                sh "sudo apt-get install -y nodejs"
-                sh "sudo npm install cjs"
-            }
-        }
         
-   
 
     stage('Build Image') {
         steps {

@@ -8,7 +8,7 @@ COPY . .
 
 #app port
 EXPOSE 8080
-CMD [ "node", "src/index.js" ]
+CMD npm run initdb && npm run dev
 
 
 
