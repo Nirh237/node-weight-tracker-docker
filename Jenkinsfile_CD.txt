@@ -21,7 +21,7 @@ pipeline {
         stage('Wait for Approval') {
             
             steps {
-                    input { message 'Deploy to Prod?'}
+                    input { message "Deploy to Prod?"}
             }
         }
 
