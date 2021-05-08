@@ -44,7 +44,7 @@ pipeline {
 
         stage('Deploy to Staging') {
             steps {
-                    sh 'sudo docker run -d -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER'
+                    sh 'sudo docker run -d -env-file .env -p 8080:8080 $DOCKER_REPOSITORY/weight-tracker:$BUILD_NUMBER'
             }
         }
         
