@@ -3,11 +3,11 @@ pipeline {
 
     stages {
             
-        stage('Build') {
-            // Creating env file 
+         stage('Build dependencies') { 
             steps {
-              
-              echo 'building...'  
+                sh "curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -"
+                sh "sudo apt-get install -y nodejs"
+                sh "sudo npm install cjs"
             }
         }
         
