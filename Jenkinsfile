@@ -4,13 +4,13 @@ pipeline {
     stages {
             
         
-
+//build Docker image
     stage('Build Image') {
         steps {
             sh 'sudo docker build -t nirh237/weight-tracker:$BUILD_NUMBER .'
         }
     }
-
+//push image to DockerHub repo
     stage('Publish Image') {
         steps {
             sh 'sudo docker login -u nirh237 -p $DOCKER_CREDS'
@@ -18,16 +18,6 @@ pipeline {
         }
     }
 
-    /*
-   post {
-            always {
-                    echo 'Creating artifacts'
-                    sh 'zip -r my_archive.zip /home/nirh237/workspace/CI'
-                    echo 'archiving artifacts'
-                    archiveArtifacts artifacts: 'my_archive.zip', onlyIfSuccessful: true
-            }
-    	}
-    */
 }
     environment {
         DOCKER_REPOSITORY = 'nirh237'
